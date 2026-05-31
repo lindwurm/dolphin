@@ -11,9 +11,11 @@
 		"sourceMap": false,
 		"isolatedModules": true,
 		"skipLibCheck": true,
-		"target": "es2017",
+		"target": "es2020",
 		"module": "commonjs",
 		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"removeComments": false,
 		"noLib": false,
 		"strict": true,
@@ -29,7 +31,8 @@
 	},
 	"compileOnSave": false,
 	"include": [
-		"./src/**/*.ts"
+		"./src/**/*.ts",
+		"./webpack.config.ts"
 	],
 	"exclude": [
 		"./src/client/**/*.ts"

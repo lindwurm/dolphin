@@ -1,22 +1,27 @@
 /**
  * webpack configuration
  */
+const path = require('path');
+const { createRequire } = require('module');
 
-import * as webpack from 'webpack';
-const { VueLoaderPlugin } = require('vue-loader');
-const TerserPlugin = require('terser-webpack-plugin');
+const requireModule = createRequire(__filename);
+const webpack = requireModule('webpack');
+const { VueLoaderPlugin } = requireModule('vue-loader');
+const TerserPlugin = requireModule('terser-webpack-plugin');
+
+const dirname = path.dirname(__filename);
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-const locales = require('./locales');
-const meta = require('./package.json');
+const locales = requireModule('./locales');
+const meta = requireModule('./package.json');
 
 const postcss = {
 	loader: 'postcss-loader',
 	options: {
 		postcssOptions: {
 			plugins: [
-				require('cssnano')({
+				requireModule('cssnano')({
 					preset: 'default'
 				})
 			]
@@ -61,7 +66,7 @@ module.exports = {
 				}, postcss, {
 					loader: 'sass-loader',
 					options: {
-						implementation: require('sass'),
+						implementation: requireModule('sass'),
 					}
 				}]
 			}, {
@@ -76,7 +81,7 @@ module.exports = {
 				}, postcss, {
 					loader: 'sass-loader',
 					options: {
-						implementation: require('sass'),
+						implementation: requireModule('sass'),
 					}
 				}]
 			}]
@@ -101,7 +106,7 @@ module.exports = {
 				options: {
 					happyPackMode: true,
 					transpileOnly: true,
-					configFile: __dirname + '/src/client/tsconfig.json',
+					configFile: dirname + '/src/client/tsconfig.json',
 					appendTsSuffixTo: [/\.vue$/]
 				}
 			}]
@@ -117,7 +122,7 @@ module.exports = {
 		new VueLoaderPlugin(),
 	],
 	output: {
-		path: __dirname + '/built/client/assets',
+		path: dirname + '/built/client/assets',
 		filename: `[name].js`,
 		publicPath: `/assets/`
 	},
@@ -126,7 +131,7 @@ module.exports = {
 			'.js', '.ts', '.json'
 		],
 		alias: {
-			'const.styl': __dirname + '/src/client/const.styl'
+			'const.styl': dirname + '/src/client/const.styl'
 		}
 	},
 	resolveLoader: {
@@ -143,3 +148,5 @@ module.exports = {
 	devtool: false, //'source-map',
 	mode: isProduction ? 'production' : 'development'
 };
+
+export {};
